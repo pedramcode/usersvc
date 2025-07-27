@@ -25,7 +25,7 @@ export class UnauthorizedError extends Error {
 export class BadRequestError extends Error {
     constructor(content?: string) {
         if (content) {
-            super(`bad request: ${content}`);
+            super(content);
         } else {
             super(`bad request`);
         }

@@ -6,6 +6,7 @@ import {
     UnauthorizedError,
 } from "../../../shared/errors";
 import logger from "../../../infrastructure/logger";
+import config from "../../../infrastructure/config";
 
 export default function errorHandlerMiddleware() {
     return (error: any, req: Request, res: Response, next: NextFunction) => {
@@ -19,6 +20,10 @@ export default function errorHandlerMiddleware() {
         } else if (error instanceof BadRequestError) {
             return res.status(400).json({ error: error.message });
         }
-        return res.status(500).json({ error: `${error}` });
+
+        if (config.RUNTIME == "dev") {
+            return res.status(500).json({ error: `${error}` });
+        }
+        return res.status(500).json({ error: "internal server error" });
     };
 }

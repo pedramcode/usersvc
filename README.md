@@ -66,7 +66,13 @@ SECRET=your_jwt_secret
 ### Running the Service
 
 ```sh
-npm start
+npm run start:dev
+```
+
+or
+
+```sh
+npm run start:prod
 ```
 
 The server will run at `http://HTTP_HOST:HTTP_PORT`.

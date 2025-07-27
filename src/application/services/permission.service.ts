@@ -21,4 +21,9 @@ export default class PermissionService {
         });
         return perm;
     }
+
+    static async getAll() {
+        const perms = await PermissionModel.find().exec();
+        return perms;
+    }
 }

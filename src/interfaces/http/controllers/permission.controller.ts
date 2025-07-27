@@ -15,3 +15,11 @@ export const permissionCreateController = async (
     const result = await PermissionService.create(data);
     return res.status(200).json({ message: result });
 };
+
+export const permissionGetAllController = async (
+    req: Request,
+    res: Response,
+) => {
+    const result = await PermissionService.getAll();
+    return res.status(200).json({ message: result });
+};

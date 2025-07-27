@@ -23,3 +23,12 @@ export const permissionGetAllController = async (
     const result = await PermissionService.getAll();
     return res.status(200).json({ message: result });
 };
+
+export const permissionDeleteController = async (
+    req: Request,
+    res: Response,
+) => {
+    const id = req.params["id"];
+    const result = await PermissionService.delete(id);
+    return res.status(204).json({ message: result });
+};

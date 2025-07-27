@@ -2,9 +2,10 @@
   "name": "usersvc",
   "version": "0.1.0",
   "description": "User service",
-  "main": "src/server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "nodemon src/server.ts",
+    "start:prod": "ts-node src/server.ts",
+    "format": "npx prettier ./src --write"
   },
   "author": "Pedram",
   "license": "ISC",
@@ -17,6 +18,10 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "express": "^5.1.0"
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.5",
+    "winston": "^3.17.0",
+    "zod": "^4.0.10"
   }
 }

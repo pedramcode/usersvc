@@ -1,0 +1,42 @@
+services:
+  usersvc:
+    container_name: user-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - 8080:${HTTP_PORT}
+    networks:
+      - usersvc-network
+
+  mongodb:
+    image: mongo
+    container_name: user-service-db
+    restart: on-failure
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=abc123
+    ports:
+      - 27017:27017
+    networks:
+      - usersvc-network
+
+  mongo-express:
+    container_name: user-service-mongo-express
+    image: mongo-express
+    restart: on-failure
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=root
+      - ME_CONFIG_MONGODB_URL=mongodb://root:abc123@mongodb:27017/
+      - ME_CONFIG_BASICAUTH=false
+    ports:
+      - 8081:8081
+    networks:
+      - usersvc-network
+
+networks:
+  usersvc-network:

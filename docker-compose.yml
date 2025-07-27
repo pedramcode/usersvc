@@ -2,9 +2,9 @@ services:
   usersvc:
     container_name: user-service
     build:
-      context: .
+      context: ./docker
       dockerfile: Dockerfile
-    restart: on-failure
+    restart: unless-stopped
     env_file:
       - .env
     ports:
@@ -15,23 +15,26 @@ services:
   mongodb:
     image: mongo
     container_name: user-service-db
-    restart: on-failure
+    restart: unless-stopped
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=abc123
+      - MONGO_INITDB_DATABASE=userservice
     ports:
       - 27017:27017
+    volumes:
+      - ./docker/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - usersvc-network
 
   mongo-express:
     container_name: user-service-mongo-express
     image: mongo-express
-    restart: on-failure
+    restart: unless-stopped
     environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=root
       - ME_CONFIG_MONGODB_ADMINPASSWORD=root
-      - ME_CONFIG_MONGODB_URL=mongodb://root:abc123@mongodb:27017/
+      - ME_CONFIG_MONGODB_URL=mongodb://admin:abc123@mongodb:27017/
       - ME_CONFIG_BASICAUTH=false
     ports:
       - 8081:8081

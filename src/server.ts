@@ -5,12 +5,15 @@ import { exit } from "process";
 import "./infrastructure/database";
 import router from "./interfaces/http/routes";
 import pingRouter from "./interfaces/http/routes/ping.route";
+import errorHandlerMiddleware from "./interfaces/http/middlewares/errorHandler";
 
 const main = async () => {
     const app = express();
 
+    app.use(express.json());
     app.use("/api", router);
     app.use("/", pingRouter);
+    app.use(errorHandlerMiddleware());
 
     app.listen(config.HTTP_PORT, config.HTTP_HOST, (err) => {
         if (err) {

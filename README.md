@@ -6,3 +6,4 @@
 - HTTP_HOST
 - MONGO_URL
 - RUNTIME: "dev" or "prod"
+- SECRET

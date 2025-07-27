@@ -8,6 +8,7 @@ interface Config {
     LOG_PATH: string;
     MONGO_URL: string;
     RUNTIME: "dev" | "prod";
+    SECRET: string;
 }
 
 const config: Config = {
@@ -16,6 +17,7 @@ const config: Config = {
     LOG_PATH: process.env.LOG_PATH || "/var/log",
     MONGO_URL: process.env.MONGO_URL || "",
     RUNTIME: process.env.RUNTIME == "prod" ? "prod" : "dev",
+    SECRET: process.env.MONGO_URL || "",
 };
 
 export default config;

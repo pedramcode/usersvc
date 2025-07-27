@@ -1,7 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 import crypto from "crypto";
+import IWithTimestamps from "../../../shared/types/common";
 
-export interface IUser extends Document {
+export interface IUser extends Document, IWithTimestamps {
     username: string;
     passwordHash: string;
     email: string;

@@ -15,3 +15,19 @@ export class UnreachableError extends Error {
         super(`unreachable`);
     }
 }
+
+export class UnauthorizedError extends Error {
+    constructor() {
+        super(`unauthorized`);
+    }
+}
+
+export class BadRequestError extends Error {
+    constructor(content?: string) {
+        if (content) {
+            super(`bad request: ${content}`);
+        } else {
+            super(`bad request`);
+        }
+    }
+}

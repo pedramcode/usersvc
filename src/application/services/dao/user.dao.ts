@@ -7,3 +7,13 @@ export interface IUserRegister {
     firstname?: string;
     lastname?: string;
 }
+
+export interface IUserLogin {
+    username: string;
+    password: string;
+}
+
+export interface IUserCredentials {
+    accessKey?: string;
+    refreshKey?: string;
+}

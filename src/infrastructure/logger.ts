@@ -5,7 +5,7 @@ const logger = winston.createLogger({
     defaultMeta: {
         time: new Date(),
     },
-    level: "info",
+    level: config.RUNTIME == "dev" ? "debug" : "info",
     format: winston.format.json(),
     transports: [
         new winston.transports.Console(),

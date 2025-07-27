@@ -108,4 +108,4 @@ MIT
 
 ## Maintainer
 
-For issues or questions, open an issue or contact [maintainer@example.com](mailto:maintainer@example.com).
+For issues or questions, open an issue or contact [dev.dehghanpour@gmail.com](mailto:dev.dehghanpour@gmail.com).

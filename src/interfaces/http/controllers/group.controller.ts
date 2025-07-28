@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { GroupCreateUpdateDTO } from "../dto/group.dto";
+import { GroupAssignDTO, GroupCreateUpdateDTO } from "../dto/group.dto";
 import * as z from "zod";
 import GroupService from "../../../application/services/group.service";
 import { GroupModel } from "../../../infrastructure/database/models/group.model";
@@ -42,4 +42,17 @@ export const groupDeleteController = async (req: Request, res: Response) => {
     const id = req.params["id"];
     const result = await GroupService.delete(id);
     return res.status(204).json({ message: result });
+};
+
+export const groupAssignController = async (req: Request, res: Response) => {
+    const content = GroupAssignDTO.safeParse(req.body);
+    if (!content.success) {
+        return res.status(400).json({ error: z.treeifyError(content.error) });
+    }
+    const data = content.data;
+    const result = await GroupService.assign({
+        username: data.username,
+        groups: data.groups,
+    });
+    return res.status(200).json({ message: result });
 };

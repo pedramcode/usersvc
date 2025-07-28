@@ -3,3 +3,8 @@ export interface IGroupCreateOrUpdate {
     desc?: string;
     permissions: string[];
 }
+
+export interface IGroupAssign {
+    username: string;
+    groups: string[];
+}

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IGroupCreateOrUpdate } from "./dao/group.dao";
+import { IGroupAssign, IGroupCreateOrUpdate } from "./dao/group.dao";
 import {
     AlreadyExistsError,
     BadRequestError,
@@ -9,7 +9,11 @@ import {
     IPermission,
     PermissionModel,
 } from "../../infrastructure/database/models/permission.model";
-import { GroupModel } from "../../infrastructure/database/models/group.model";
+import {
+    GroupModel,
+    IGroup,
+} from "../../infrastructure/database/models/group.model";
+import { UserModel } from "../../infrastructure/database/models/user.model";
 
 const _getPerms = async (data: IGroupCreateOrUpdate) => {
     let perms: IPermission[] = [];
@@ -79,5 +83,36 @@ export default class GroupService {
             throw new NotFoundError("group");
         }
         return;
+    }
+
+    static async assign(data: IGroupAssign) {
+        const user = await UserModel.findOne({
+            username: data.username,
+        }).exec();
+        if (!user) {
+            throw new NotFoundError(`user "${data.username}"`);
+        }
+        let groups: IGroup[] = [];
+        for (let g of data.groups) {
+            if (!mongoose.isValidObjectId(g)) {
+                throw new NotFoundError(`group "${g}"`);
+            }
+            const obj = await GroupModel.findById(g).exec();
+            if (!obj) {
+                throw new NotFoundError(`group "${g}"`);
+            }
+            groups.push(obj);
+        }
+        const result = await UserModel.findOneAndUpdate(
+            { username: data.username },
+            { groups },
+            { new: true },
+        )
+            .select("-passwordHash")
+            .populate({
+                path: "groups",
+            })
+            .exec();
+        return result;
     }
 }

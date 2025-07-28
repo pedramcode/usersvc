@@ -1,4 +1,5 @@
 import config from "../../infrastructure/config";
+import { IGroup } from "../../infrastructure/database/models/group.model";
 import {
     IUser,
     UserModel,
@@ -17,7 +18,12 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 const _generateAccessToken = (user: IUser) => {
     const accessKey = jwt.sign(
-        { super: user.isSuperuser, email: user.email, typ: "access" },
+        {
+            super: user.isSuperuser,
+            email: user.email,
+            typ: "access",
+            groups: user.groups,
+        },
         config.SECRET,
         {
             subject: user.username,
@@ -30,7 +36,12 @@ const _generateAccessToken = (user: IUser) => {
 
 const _generateRefreshToken = (user: IUser) => {
     const accessKey = jwt.sign(
-        { super: user.isSuperuser, email: user.email, typ: "refresh" },
+        {
+            super: user.isSuperuser,
+            email: user.email,
+            typ: "refresh",
+            groups: user.groups,
+        },
         config.SECRET,
         {
             subject: user.username,
@@ -74,6 +85,13 @@ export default class UserService {
         const user = await UserModel.findOne({
             username: data.username,
             passwordHash: data.password,
+        }).populate({
+            path: "groups",
+            select: "-_id -__v",
+            populate: {
+                path: "permissions",
+                select: "-_id -__v",
+            },
         });
         if (!user) {
             throw new UnauthorizedError();

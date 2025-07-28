@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 import crypto from "crypto";
 import IWithTimestamps from "../../../shared/types/common";
+import { IGroup } from "./group.model";
 
 export interface IUser extends Document, IWithTimestamps {
     username: string;
@@ -10,6 +11,7 @@ export interface IUser extends Document, IWithTimestamps {
     isSuperuser: boolean;
     firstname?: string;
     lastname?: string;
+    groups?: mongoose.Types.ObjectId[] | IGroup[];
 }
 
 const userSchema = new Schema<IUser>(
@@ -51,6 +53,13 @@ const userSchema = new Schema<IUser>(
             required: false,
             maxlength: 32,
         },
+        groups: [
+            {
+                type: mongoose.Types.ObjectId,
+                ref: "Group",
+                required: false,
+            },
+        ],
     },
     {
         timestamps: true,

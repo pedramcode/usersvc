@@ -69,4 +69,15 @@ export default class GroupService {
         );
         return result;
     }
+
+    static async delete(id: string) {
+        if (!mongoose.isValidObjectId(id)) {
+            throw new NotFoundError("group");
+        }
+        const deleted = await GroupModel.deleteOne({ _id: id }).exec();
+        if (deleted.deletedCount == 0) {
+            throw new NotFoundError("group");
+        }
+        return;
+    }
 }

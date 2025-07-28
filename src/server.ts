@@ -7,6 +7,7 @@ import router from "./interfaces/http/routes";
 import pingRouter from "./interfaces/http/routes/ping.route";
 import errorHandlerMiddleware from "./interfaces/http/middlewares/errorHandler";
 import { rateLimit } from "express-rate-limit";
+import cors from "cors";
 
 const main = async () => {
     const app = express();
@@ -20,6 +21,7 @@ const main = async () => {
         ipv6Subnet: 56,
     });
 
+    app.use(cors());
     app.use(express.json());
     app.use(limiter);
     app.use("/api", router);

@@ -5,4 +5,10 @@ export interface IProfileUpdate {
     job?: string;
     country?: string;
     city?: string;
+    bioPublic: boolean;
+    imagePublic: boolean;
+    birthdatePublic: boolean;
+    jobPublic: boolean;
+    countryPublic: boolean;
+    cityPublic: boolean;
 }

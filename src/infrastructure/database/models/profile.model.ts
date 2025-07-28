@@ -9,6 +9,12 @@ export interface IProfile extends Document, IWithTimestamps {
     job?: string;
     country?: string;
     city?: string;
+    bioPublic: boolean;
+    imagePublic: boolean;
+    birthdatePublic: boolean;
+    jobPublic: boolean;
+    countryPublic: boolean;
+    cityPublic: boolean;
     user: mongoose.Types.ObjectId | IUser;
 }
 
@@ -20,6 +26,12 @@ const profileSchema = new Schema<IProfile>(
         job: { type: String, default: "", maxlength: 64 },
         country: { type: String, default: "", maxlength: 32 },
         city: { type: String, default: "", maxlength: 32 },
+        bioPublic: { type: Boolean, default: false },
+        imagePublic: { type: Boolean, default: false },
+        birthdatePublic: { type: Boolean, default: false },
+        jobPublic: { type: Boolean, default: false },
+        countryPublic: { type: Boolean, default: false },
+        cityPublic: { type: Boolean, default: false },
         user: {
             type: Schema.Types.ObjectId,
             ref: "User",

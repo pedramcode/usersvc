@@ -13,3 +13,18 @@ export const profileUpdateController = async (req: Request, res: Response) => {
     const result = await ProfileService.update(username, data);
     return res.status(200).json({ message: result });
 };
+
+export const profileGetMeController = async (req: Request, res: Response) => {
+    const username = res.locals["username"] as string;
+    const result = await ProfileService.get(username, false);
+    return res.status(200).json({ message: result });
+};
+
+export const profileGetOtherController = async (
+    req: Request,
+    res: Response,
+) => {
+    const username = req.params["username"] as string;
+    const result = await ProfileService.get(username, true);
+    return res.status(200).json({ message: result });
+};

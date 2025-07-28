@@ -18,6 +18,30 @@ export default class ProfileService {
         return profile;
     }
 
+    static async get(username: string, secure: boolean) {
+        const user = await UserModel.findOne({ username }).exec();
+        if (!user) {
+            throw new NotFoundError(`account ${username}`);
+        }
+        let profile = await ProfileModel.findOne({ user })
+            .select("-_id")
+            .exec();
+        if (!profile) {
+            throw new NotFoundError(`account "${username}"`);
+        }
+        if (secure) {
+            profile.bio = profile.bioPublic ? profile.bio : "";
+            profile.image = profile.imagePublic ? profile.image : "";
+            profile.birthdate = profile.birthdatePublic
+                ? profile.birthdate
+                : null!;
+            profile.job = profile.jobPublic ? profile.job : "";
+            profile.country = profile.countryPublic ? profile.country : "";
+            profile.city = profile.cityPublic ? profile.city : "";
+        }
+        return profile;
+    }
+
     static async update(username: string, data: IProfileUpdate) {
         const user = await UserModel.findOne({ username }).exec();
         if (!user) {
@@ -33,7 +57,7 @@ export default class ProfileService {
             { user },
             { ...data },
             { new: true },
-        );
+        ).select("-_id");
         return profileUpdated;
     }
 }

@@ -1,4 +1,4 @@
-export interface IPermissionCreate {
+export interface IPermissionCreateUpdate {
     name: string;
     desc?: string;
 }

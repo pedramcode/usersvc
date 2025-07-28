@@ -4,10 +4,10 @@ import {
     PermissionModel,
 } from "../../infrastructure/database/models/permission.model";
 import { AlreadyExistsError, NotFoundError } from "../../shared/errors";
-import { IPermissionCreate } from "./dao/permission.dao";
+import { IPermissionCreateUpdate } from "./dao/permission.dao";
 
 export default class PermissionService {
-    static async create(data: IPermissionCreate): Promise<IPermission> {
+    static async create(data: IPermissionCreateUpdate): Promise<IPermission> {
         const count = await PermissionModel.find({
             name: data.name,
         })
@@ -21,6 +21,29 @@ export default class PermissionService {
             desc: data.desc!,
         });
         return perm;
+    }
+
+    static async update(id: string, data: IPermissionCreateUpdate) {
+        if (!mongoose.isValidObjectId(id)) {
+            throw new NotFoundError(`permission "${id}"`);
+        }
+        const exists =
+            (await PermissionModel.find({ _id: id }).countDocuments().exec()) !=
+            0;
+        if (!exists) {
+            throw new NotFoundError(`permission "${id}"`);
+        }
+        const result = await PermissionModel.findOneAndUpdate(
+            {
+                _id: id,
+            },
+            {
+                name: data.name,
+                desc: data.desc!,
+            },
+            { new: true },
+        );
+        return result;
     }
 
     static async getAll() {

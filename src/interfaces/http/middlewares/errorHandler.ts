@@ -10,7 +10,7 @@ import config from "../../../infrastructure/config";
 
 export default function errorHandlerMiddleware() {
     return (error: any, req: Request, res: Response, next: NextFunction) => {
-        logger.error(error.message);
+        logger.debug(error.message);
         if (error instanceof NotFoundError) {
             return res.status(404).json({ error: error.message });
         } else if (error instanceof AlreadyExistsError) {

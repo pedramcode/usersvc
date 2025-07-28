@@ -15,6 +15,7 @@ import {
 import { IUserCredentials, IUserLogin, IUserRegister } from "./dao/user.dao";
 import OtpService from "./otp.service";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import ProfileService from "./profile.service";
 
 const _generateAccessToken = (user: IUser) => {
     const accessKey = jwt.sign(
@@ -169,6 +170,7 @@ export default class UserService {
                 }
                 user.isEmailVerified = true;
                 await user.save();
+                await ProfileService.createEmptyForUser(user);
                 return "registration done";
             }
             default: {

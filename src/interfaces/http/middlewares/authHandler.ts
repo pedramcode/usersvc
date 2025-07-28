@@ -3,7 +3,7 @@ import { UnauthorizedError } from "../../../shared/errors";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../../infrastructure/config";
 
-export default function superuserAuthMiddleware() {
+export default function authMiddleware() {
     return (req: Request, res: Response, next: NextFunction) => {
         if (!req.headers["authorization"]) {
             throw new UnauthorizedError();
@@ -24,11 +24,7 @@ export default function superuserAuthMiddleware() {
                 throw new UnauthorizedError();
             }
             const payload = data as JwtPayload;
-            if (
-                !payload["typ"] ||
-                payload["typ"] != "access" ||
-                !payload["super"]
-            ) {
+            if (!payload["typ"] || payload["typ"] != "access") {
                 throw new UnauthorizedError();
             }
             res.locals["username"] = payload["sub"];

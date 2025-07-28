@@ -15,7 +15,7 @@ export interface IProfile extends Document, IWithTimestamps {
 const profileSchema = new Schema<IProfile>(
     {
         bio: { type: String, default: "", maxlength: 256 },
-        image: { type: String, default: "", maxlength: 1024 },
+        image: { type: String, default: "", maxlength: 256 },
         birthdate: { type: Date, default: null },
         job: { type: String, default: "", maxlength: 64 },
         country: { type: String, default: "", maxlength: 32 },

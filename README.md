@@ -52,6 +52,7 @@ Set the following variables in a `.env` file or your environment:
 - `MONGO_URL` - MongoDB connection string
 - `RUNTIME` - "dev" or "prod"
 - `SECRET` - Secret key for JWT signing
+- `REDIS_URL` - Redis server URL for caching
 
 Example `.env`:
 ```

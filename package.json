@@ -26,6 +26,8 @@
     "express-rate-limit": "^8.0.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.5",
+    "rate-limit-redis": "^4.2.1",
+    "redis": "^5.6.1",
     "winston": "^3.17.0",
     "zod": "^4.0.10"
   }

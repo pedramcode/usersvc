@@ -7,18 +7,23 @@ import router from "./interfaces/http/routes";
 import pingRouter from "./interfaces/http/routes/ping.route";
 import errorHandlerMiddleware from "./interfaces/http/middlewares/errorHandler";
 import { rateLimit } from "express-rate-limit";
+import redisClient, { connectRedis } from "./infrastructure/cache/redis";
+import { RedisStore } from "rate-limit-redis";
 import cors from "cors";
 
 const main = async () => {
     const app = express();
 
-    // TODO should use external (redis) store for limiter
+    await connectRedis();
     const limiter = rateLimit({
         windowMs: 60 * 1000,
         limit: 50,
         standardHeaders: "draft-8",
         legacyHeaders: false,
         ipv6Subnet: 56,
+        store: new RedisStore({
+            sendCommand: (...args: string[]) => redisClient.sendCommand(args),
+        }),
     });
 
     app.use(cors());

@@ -40,6 +40,15 @@ services:
       - 8081:8081
     networks:
       - usersvc-network
+  
+  redis:
+    container_name: user-service-redis
+    image: redis
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    networks:
+      - usersvc-network
 
 networks:
   usersvc-network:

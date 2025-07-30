@@ -9,6 +9,7 @@ interface Config {
     MONGO_URL: string;
     RUNTIME: "dev" | "prod";
     SECRET: string;
+    REDIS_URL: string;
 }
 
 const config: Config = {
@@ -18,6 +19,7 @@ const config: Config = {
     MONGO_URL: process.env.MONGO_URL || "",
     RUNTIME: process.env.RUNTIME == "prod" ? "prod" : "dev",
     SECRET: process.env.MONGO_URL || "",
+    REDIS_URL: process.env.REDIS_URL || "",
 };
 
 export default config;

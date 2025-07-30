@@ -16,8 +16,8 @@ import {
 import { UserModel } from "../../infrastructure/database/models/user.model";
 
 const _getPerms = async (data: IGroupCreateOrUpdate) => {
-    let perms: IPermission[] = [];
-    for (let perm of data.permissions) {
+    const perms: IPermission[] = [];
+    for (const perm of data.permissions) {
         if (!mongoose.isValidObjectId(perm)) {
             throw new BadRequestError(`${perm} is not a valid permission ID`);
         }
@@ -92,8 +92,8 @@ export default class GroupService {
         if (!user) {
             throw new NotFoundError(`user "${data.username}"`);
         }
-        let groups: IGroup[] = [];
-        for (let g of data.groups) {
+        const groups: IGroup[] = [];
+        for (const g of data.groups) {
             if (!mongoose.isValidObjectId(g)) {
                 throw new NotFoundError(`group "${g}"`);
             }

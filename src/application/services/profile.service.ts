@@ -23,7 +23,7 @@ export default class ProfileService {
         if (!user) {
             throw new NotFoundError(`account ${username}`);
         }
-        let profile = await ProfileModel.findOne({ user })
+        const profile = await ProfileModel.findOne({ user })
             .select("-_id")
             .exec();
         if (!profile) {

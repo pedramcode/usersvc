@@ -77,7 +77,7 @@ export default class UserService {
             }
             const accessKey = _generateAccessToken(user);
             return { accessKey };
-        } catch (e) {
+        } catch (err) {
             throw new BadRequestError("invalid refresh token");
         }
     }

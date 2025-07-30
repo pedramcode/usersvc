@@ -2,7 +2,7 @@ services:
   usersvc:
     container_name: user-service
     build:
-      context: ./docker
+      context: .
       dockerfile: Dockerfile
     restart: unless-stopped
     env_file:
@@ -43,7 +43,7 @@ services:
   
   redis:
     container_name: user-service-redis
-    image: redis
+    image: redis:alpine
     restart: unless-stopped
     ports:
       - 6379:6379
